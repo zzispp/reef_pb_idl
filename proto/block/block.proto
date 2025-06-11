@@ -93,6 +93,7 @@ message GetTokenInfoReply {
 	uint32 token_decimals = 3; // 代币小数位
 	string token_total_supply = 4; // 代币总供应量
 	string parse_token_total_supply = 5; // 解析后的代币总供应量
+	string update_authority = 6; // 更新权限
 }
 
 message GetTokenInfoBatchRequest {
