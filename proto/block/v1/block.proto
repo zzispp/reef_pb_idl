@@ -330,7 +330,7 @@ message GetLiquidityReply {
 	string liquidity_address = 2; // 流动性地址
 	string liquidity_type = 3; // 流动性类型
 	string liquidity_market_cap = 4; // 流动性市值
-	string virtual_trade = 5; // 虚拟交易
+	bool virtual_trade = 5; // 虚拟交易
 	string progress = 6; // 进度
 }
 
