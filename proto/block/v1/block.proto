@@ -42,6 +42,9 @@ service Block {
 
 	//获取未使用Nonce EVM
 	rpc GetPendingNonce(GetPendingNonceRequest) returns (GetPendingNonceReply);
+
+	//获取代币安全信息
+	rpc GetTokenSecurity(GetTokenSecurityRequest) returns (GetTokenSecurityReply);
 }
 
 message NetworkConfigItem {
@@ -338,4 +341,16 @@ message GetPendingNonceRequest {
 
 message GetPendingNonceReply {
 	uint64 nonce = 1; // 非零
+}
+
+
+message GetTokenSecurityRequest {
+	string chain = 1; // 链名称
+	string network = 2; // 网络名称
+	string contract_address = 3; // 合约地址
+}
+
+message GetTokenSecurityReply {
+	string buy_tax_rate = 1; // 买入税率
+	string sell_tax_rate = 2; // 卖出税率
 }
