@@ -73,6 +73,7 @@ message GetTokenBalanceReply {
 	 string balance = 1; // 代币余额
 	 uint32 decimals = 2; // 代币小数位
 	 string parse_balance = 3; // 解析后的余额
+	 string parse_usd_balance = 4; // 解析后的美元余额
 }
 
 message GetTokenBalanceBatchRequest {
