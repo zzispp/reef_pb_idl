@@ -21,7 +21,7 @@ message CreateLimitOrderRequest {
     double price = 6; // 价格
     double gas_price = 7; //gas 价格
     string symbol = 8; // 交易符号 BNB/USDT
-    string storage_id = 9; // 存储ID
+    string private_key = 9; // 私钥
     double slippage = 10; // 滑点
     double fee_percent = 11; // 手续费百分比
 }
