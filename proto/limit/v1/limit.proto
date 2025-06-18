@@ -10,6 +10,8 @@ option java_package = "api.limit.v1";
 service Limit {
     rpc CreateLimitOrder (CreateLimitOrderRequest) returns (CreateLimitOrderReply);
     rpc CancelLimitOrder (CancelLimitOrderRequest) returns (CancelLimitOrderReply);
+    rpc GetLimitOrder (GetLimitOrderRequest) returns (GetLimitOrderReply);
+    rpc GetLimitOrders (GetLimitOrdersRequest) returns (GetLimitOrdersReply);
 }
 
 message CreateLimitOrderRequest {
@@ -23,8 +25,7 @@ message CreateLimitOrderRequest {
     string symbol = 8; // 交易符号 BNB/USDT
     string private_key = 9; // 私钥
     double slippage = 10; // 滑点
-    double fee_percent = 11; // 手续费百分比
-    string biz_id = 12; // 业务ID
+    string biz_id = 11; // 业务ID
 }
 
 message CreateLimitOrderReply {
@@ -36,4 +37,42 @@ message CancelLimitOrderRequest {
 }
 
 message CancelLimitOrderReply {
+}
+
+
+message GetLimitOrderRequest {
+    string biz_id = 1; // 业务ID
+}
+
+message LimitOrder {
+    string id = 1; // 订单ID
+    string created_at = 2; // 创建时间
+    string updated_at = 3; // 修改时间
+    string deleted_at = 4; // 删除时间
+    string expire_at = 5; // 过期时间
+    string chain_name = 6; // 链名称
+    string user_address = 7; // 用户地址
+    string token_address = 8; // 代币地址
+    double amount = 9; // 数量
+    int32 direction = 10; // 方向 0:买入 1:卖出
+    double price = 11; // 价格
+    double gas_price = 12; // gas价格 gwei/lamport
+    string symbol = 13; // 交易符号 BNB/USDT
+    string private_key = 14; // 私钥
+    double slippage = 15; // 滑点
+    string biz_id = 16; // 业务ID
+    int32 status = 17; // 状态
+    string result = 18; // 结果
+}
+
+message GetLimitOrderReply {
+     LimitOrder limit_orders = 1; // 订单列表
+}
+
+message GetLimitOrdersRequest {
+   repeated string biz_ids = 1; // 业务ID
+}
+
+message GetLimitOrdersReply {
+    repeated LimitOrder limit_orders = 1; // 订单列表
 }
