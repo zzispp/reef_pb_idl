@@ -24,6 +24,7 @@ message CreateLimitOrderRequest {
     string private_key = 9; // 私钥
     double slippage = 10; // 滑点
     double fee_percent = 11; // 手续费百分比
+    string biz_id = 12; // 业务ID
 }
 
 message CreateLimitOrderReply {
