@@ -74,6 +74,8 @@ message LimitOrder {
     string biz_id = 19; // 业务ID
     int32 status = 20; // 状态
     string result = 21; // 结果
+
+    optional double percent = 22; // 百分比
 }
 
 message GetLimitOrderReply {
