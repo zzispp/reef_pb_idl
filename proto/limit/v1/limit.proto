@@ -34,7 +34,7 @@ message CreateLimitOrderRequest {
 
     optional double percent = 14; // 百分比
 
-     string expire_at = 15; // 过期时间
+    uint64 expire_at = 15; // 过期时间
 }
 
 message CreateLimitOrderReply {
