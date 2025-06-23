@@ -33,6 +33,8 @@ message CreateLimitOrderRequest {
     string biz_id = 13; // 业务ID
 
     optional double percent = 14; // 百分比
+
+     string expire_at = 15; // 过期时间
 }
 
 message CreateLimitOrderReply {
