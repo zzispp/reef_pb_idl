@@ -20,12 +20,18 @@ message CreateLimitOrderRequest {
     string token_address = 3; // 代币地址
     double amount = 4; // 数量
     int32 direction = 5; // 方向 1: 买入 2: 卖出
-    double price = 6; // 价格
-    double gas_price = 7; //gas 价格
-    string symbol = 8; // 交易符号 BNB/USDT
-    string private_key = 9; // 私钥
-    double slippage = 10; // 滑点
-    string biz_id = 11; // 业务ID
+
+    int32 limit_type = 6; // 限价类型 1: 按价格  2.按输入输出量
+    optional double price = 7; // 价格
+
+    optional double token_in_amount = 8; // 输入量
+    optional double token_out_amount = 9; // 输出量
+
+    double gas_price = 10; //gas 价格
+    string symbol = 11; // 交易符号 BNB/USDT
+    string private_key = 12; // 私钥
+    double slippage = 13; // 滑点
+    string biz_id = 14; // 业务ID
 }
 
 message CreateLimitOrderReply {
