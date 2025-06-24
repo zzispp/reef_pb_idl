@@ -35,6 +35,8 @@ message CreateLimitOrderRequest {
     optional double percent = 14; // 百分比
 
     uint64 expire_at = 15; // 过期时间
+
+    int32 limit_type = 16; // 限价类型 1: 按价格  2.按输入输出量 3.止盈止损
 }
 
 message CreateLimitOrderReply {
