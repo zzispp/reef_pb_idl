@@ -48,6 +48,9 @@ service Block {
 
 	//获取代币媒体信息
 	rpc GetTokenMedia(GetTokenMediaRequest) returns (GetTokenMediaReply);
+
+
+	rpc GetTokenPoolInfo(GetTokenPoolInfoRequest) returns (GetTokenPoolInfoReply);
 }
 
 message NetworkConfigItem {
@@ -370,7 +373,26 @@ message GetTokenMediaRequest {
 message GetTokenMediaReply {
 	string logo_url = 1; // 代币logo
 	string twitter_url = 2; // 推特URL
-	string telegram_url = 3; // 电报URL
-	string website_url = 4; // 网站URL
-	string description = 5; // 描述
+}
+
+
+message GetTokenPoolInfoRequest {
+	string chain = 1; // 链名称
+	string network = 2; // 网络名称
+	string contract_address = 3; // 合约地址
+}
+
+message GetTokenPoolInfoReply {
+	string pool_address = 1; // 池子地址
+	string pool_type = 2; // 池子类型
+	string base_token_address = 3; // 基础代币地址
+	string quote_token_address = 4; // 报价代币地址
+	string base_token_symbol = 5; // 基础代币符号
+	string quote_token_symbol = 6; // 报价代币符号
+	string base_token_liquidity_amount = 7; // 基础代币流动性数量
+	string quote_token_liquidity_amount = 8; // 报价代币流动性数量
+	string base_token_liquidity_usd_value = 9; // 基础代币流动性USD价值
+	string quote_token_liquidity_usd_value = 10; // 报价代币流动性USD价值
+	string token_market_cap = 11; // 代币市值
+	string token_liquidity_market_cap = 12; // 代币流动性市值
 }
