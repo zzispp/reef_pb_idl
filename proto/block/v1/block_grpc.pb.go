@@ -38,6 +38,7 @@ const (
 	Block_GetPendingNonce_FullMethodName        = "/api.block.v1.Block/GetPendingNonce"
 	Block_GetTokenSecurity_FullMethodName       = "/api.block.v1.Block/GetTokenSecurity"
 	Block_GetTokenMedia_FullMethodName          = "/api.block.v1.Block/GetTokenMedia"
+	Block_GetTokenPoolInfo_FullMethodName       = "/api.block.v1.Block/GetTokenPoolInfo"
 )
 
 // BlockClient is the client API for Block service.
@@ -74,6 +75,7 @@ type BlockClient interface {
 	GetTokenSecurity(ctx context.Context, in *GetTokenSecurityRequest, opts ...grpc.CallOption) (*GetTokenSecurityReply, error)
 	// 获取代币媒体信息
 	GetTokenMedia(ctx context.Context, in *GetTokenMediaRequest, opts ...grpc.CallOption) (*GetTokenMediaReply, error)
+	GetTokenPoolInfo(ctx context.Context, in *GetTokenPoolInfoRequest, opts ...grpc.CallOption) (*GetTokenPoolInfoReply, error)
 }
 
 type blockClient struct {
@@ -274,6 +276,16 @@ func (c *blockClient) GetTokenMedia(ctx context.Context, in *GetTokenMediaReques
 	return out, nil
 }
 
+func (c *blockClient) GetTokenPoolInfo(ctx context.Context, in *GetTokenPoolInfoRequest, opts ...grpc.CallOption) (*GetTokenPoolInfoReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTokenPoolInfoReply)
+	err := c.cc.Invoke(ctx, Block_GetTokenPoolInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BlockServer is the server API for Block service.
 // All implementations must embed UnimplementedBlockServer
 // for forward compatibility.
@@ -308,6 +320,7 @@ type BlockServer interface {
 	GetTokenSecurity(context.Context, *GetTokenSecurityRequest) (*GetTokenSecurityReply, error)
 	// 获取代币媒体信息
 	GetTokenMedia(context.Context, *GetTokenMediaRequest) (*GetTokenMediaReply, error)
+	GetTokenPoolInfo(context.Context, *GetTokenPoolInfoRequest) (*GetTokenPoolInfoReply, error)
 	mustEmbedUnimplementedBlockServer()
 }
 
@@ -374,6 +387,9 @@ func (UnimplementedBlockServer) GetTokenSecurity(context.Context, *GetTokenSecur
 }
 func (UnimplementedBlockServer) GetTokenMedia(context.Context, *GetTokenMediaRequest) (*GetTokenMediaReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTokenMedia not implemented")
+}
+func (UnimplementedBlockServer) GetTokenPoolInfo(context.Context, *GetTokenPoolInfoRequest) (*GetTokenPoolInfoReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTokenPoolInfo not implemented")
 }
 func (UnimplementedBlockServer) mustEmbedUnimplementedBlockServer() {}
 func (UnimplementedBlockServer) testEmbeddedByValue()               {}
@@ -738,6 +754,24 @@ func _Block_GetTokenMedia_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Block_GetTokenPoolInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTokenPoolInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BlockServer).GetTokenPoolInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Block_GetTokenPoolInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BlockServer).GetTokenPoolInfo(ctx, req.(*GetTokenPoolInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Block_ServiceDesc is the grpc.ServiceDesc for Block service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -820,6 +854,10 @@ var Block_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTokenMedia",
 			Handler:    _Block_GetTokenMedia_Handler,
+		},
+		{
+			MethodName: "GetTokenPoolInfo",
+			Handler:    _Block_GetTokenPoolInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
