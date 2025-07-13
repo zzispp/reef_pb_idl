@@ -22,6 +22,7 @@ service Block {
 
 	//闪兑 返回RawTx交易数组 EVM包含Approve操作
 	rpc Swap (SwapRequest) returns (SwapReply);
+	rpc Quote (QuoteRequest) returns (QuoteReply);
 	//转账 返回RawTx交易
 	rpc Transfer (TransferRequest) returns (TransferReply);
 	//授权 返回RawTx交易 EVM
@@ -214,6 +215,19 @@ message SwapRequest {
 	optional SwapFeeItem after_fee = 9; // to token 后置手续费
 	optional uint64 nonce = 10; // 第一笔Nonce
 }
+
+message QuoteRequest {
+	string chain = 1; // 链名称
+	string network = 2; // 网络名称
+	uint32 direction = 3; // 方向 1: 买入 2: 卖出
+	string contract_address = 4; // 合约地址
+	string amount = 5; // 金额
+}
+
+message QuoteReply {
+	string out_amount = 1; // 输出金额
+}
+
 
 message SwapFeeItem {
 	string recipient = 1; // 接收地址
