@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package pool.v1;
+
+
+option go_package = "reef_sub_service/api/pool/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.pool.v1";
+option java_outer_classname = "PoolProtoV1";
+
+service Pool {
+  rpc SubscribeTransactions (stream TransactionRequest) returns (stream TransactionReply) {}
+}
+
+
+message TransactionRequest {
+  string chain = 1;
+  string mint_address = 2;
+  string pool_address = 3;
+}
+
+// Transaction相关消息
+message TransactionReply {
+  // 基本信息
+  string signature = 1;
+  string signer = 2;
+  int64 timestamp = 3; // Unix时间戳
+  uint64 slot = 4;
+
+  // 交易相关
+  int32 trade_type = 5; // 1=买入, 2=卖出
+  string actual_sol_amount = 6; // 使用字符串表示大数
+  string actual_token_amount = 7; // 使用字符串表示大数
+
+  // 地址信息
+  string pool_address = 8;
+  string token_mint = 9;
+  string user = 10;
+
+  // PumpFun专用数据
+  PumpModel pump_model = 11;
+}
+
+message PumpModel {
+  string real_sol_reserves = 1; // 真实SOL储备量
+  string real_token_reserves = 2; // 真实Token储备量
+  string virtual_sol_reserves = 3; // 虚拟SOL储备量
+  string virtual_token_reserves = 4; // 虚拟Token储备量
+}
