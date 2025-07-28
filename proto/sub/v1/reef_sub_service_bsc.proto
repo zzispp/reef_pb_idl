@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package trade.v1;
+
+option go_package = "reef_sub_service_bsc/api/trade/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.trade.v1";
+option java_outer_classname = "TradeProtoV1";
+
+// 交易订阅服务
+service TradeService {
+  // 订阅代币交易流 - 双向流，支持动态切换mint地址
+  rpc SubscribeTrade (stream SubscribeTradeRequest) returns (stream TradeEvent);
+}
+
+// 订阅交易请求
+message SubscribeTradeRequest {
+  string mint_address = 1; // 要订阅的代币地址
+}
+
+// 交易事件
+message TradeEvent {
+  string signature = 1;      // 交易hash
+  string user_address = 2;   // 用户地址
+  string input_mint = 3;     // 输入代币地址
+  string output_mint = 4;    // 输出代币地址
+  string input_amount = 5;   // 输入数量
+  string output_amount = 6;  // 输出数量
+  string trade_type = 7;     // 交易类型：买入/卖出
+  int64 timestamp = 8;       // 时间戳
+} 
