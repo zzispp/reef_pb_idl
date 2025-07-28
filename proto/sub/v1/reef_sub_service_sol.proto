@@ -8,7 +8,7 @@ option java_package = "dev.kratos.api.trade_service.v1";
 option java_outer_classname = "TradeServiceProtoV1";
 
 // 交易服务
-service TradeService {
+service TradeServiceSol {
   // 订阅交易流（支持动态切换 mint 地址）
   rpc SubscribeTrade(stream SubscribeTradeRequest) returns (stream TradeResponse);
 }

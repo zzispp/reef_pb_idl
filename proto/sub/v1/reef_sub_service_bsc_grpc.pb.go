@@ -19,30 +19,30 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TradeService_SubscribeTrade_FullMethodName = "/trade.v1.TradeService/SubscribeTrade"
+	TradeServiceBsc_SubscribeTrade_FullMethodName = "/trade.v1.TradeServiceBsc/SubscribeTrade"
 )
 
-// TradeServiceClient is the client API for TradeService service.
+// TradeServiceBscClient is the client API for TradeServiceBsc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // 交易订阅服务
-type TradeServiceClient interface {
+type TradeServiceBscClient interface {
 	// 订阅代币交易流 - 双向流，支持动态切换mint地址
 	SubscribeTrade(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[SubscribeTradeRequest, TradeEvent], error)
 }
 
-type tradeServiceClient struct {
+type tradeServiceBscClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTradeServiceClient(cc grpc.ClientConnInterface) TradeServiceClient {
-	return &tradeServiceClient{cc}
+func NewTradeServiceBscClient(cc grpc.ClientConnInterface) TradeServiceBscClient {
+	return &tradeServiceBscClient{cc}
 }
 
-func (c *tradeServiceClient) SubscribeTrade(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[SubscribeTradeRequest, TradeEvent], error) {
+func (c *tradeServiceBscClient) SubscribeTrade(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[SubscribeTradeRequest, TradeEvent], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &TradeService_ServiceDesc.Streams[0], TradeService_SubscribeTrade_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &TradeServiceBsc_ServiceDesc.Streams[0], TradeServiceBsc_SubscribeTrade_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,68 +51,68 @@ func (c *tradeServiceClient) SubscribeTrade(ctx context.Context, opts ...grpc.Ca
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type TradeService_SubscribeTradeClient = grpc.BidiStreamingClient[SubscribeTradeRequest, TradeEvent]
+type TradeServiceBsc_SubscribeTradeClient = grpc.BidiStreamingClient[SubscribeTradeRequest, TradeEvent]
 
-// TradeServiceServer is the server API for TradeService service.
-// All implementations must embed UnimplementedTradeServiceServer
+// TradeServiceBscServer is the server API for TradeServiceBsc service.
+// All implementations must embed UnimplementedTradeServiceBscServer
 // for forward compatibility.
 //
 // 交易订阅服务
-type TradeServiceServer interface {
+type TradeServiceBscServer interface {
 	// 订阅代币交易流 - 双向流，支持动态切换mint地址
 	SubscribeTrade(grpc.BidiStreamingServer[SubscribeTradeRequest, TradeEvent]) error
-	mustEmbedUnimplementedTradeServiceServer()
+	mustEmbedUnimplementedTradeServiceBscServer()
 }
 
-// UnimplementedTradeServiceServer must be embedded to have
+// UnimplementedTradeServiceBscServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedTradeServiceServer struct{}
+type UnimplementedTradeServiceBscServer struct{}
 
-func (UnimplementedTradeServiceServer) SubscribeTrade(grpc.BidiStreamingServer[SubscribeTradeRequest, TradeEvent]) error {
+func (UnimplementedTradeServiceBscServer) SubscribeTrade(grpc.BidiStreamingServer[SubscribeTradeRequest, TradeEvent]) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeTrade not implemented")
 }
-func (UnimplementedTradeServiceServer) mustEmbedUnimplementedTradeServiceServer() {}
-func (UnimplementedTradeServiceServer) testEmbeddedByValue()                      {}
+func (UnimplementedTradeServiceBscServer) mustEmbedUnimplementedTradeServiceBscServer() {}
+func (UnimplementedTradeServiceBscServer) testEmbeddedByValue()                         {}
 
-// UnsafeTradeServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TradeServiceServer will
+// UnsafeTradeServiceBscServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TradeServiceBscServer will
 // result in compilation errors.
-type UnsafeTradeServiceServer interface {
-	mustEmbedUnimplementedTradeServiceServer()
+type UnsafeTradeServiceBscServer interface {
+	mustEmbedUnimplementedTradeServiceBscServer()
 }
 
-func RegisterTradeServiceServer(s grpc.ServiceRegistrar, srv TradeServiceServer) {
-	// If the following call pancis, it indicates UnimplementedTradeServiceServer was
+func RegisterTradeServiceBscServer(s grpc.ServiceRegistrar, srv TradeServiceBscServer) {
+	// If the following call pancis, it indicates UnimplementedTradeServiceBscServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&TradeService_ServiceDesc, srv)
+	s.RegisterService(&TradeServiceBsc_ServiceDesc, srv)
 }
 
-func _TradeService_SubscribeTrade_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(TradeServiceServer).SubscribeTrade(&grpc.GenericServerStream[SubscribeTradeRequest, TradeEvent]{ServerStream: stream})
+func _TradeServiceBsc_SubscribeTrade_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(TradeServiceBscServer).SubscribeTrade(&grpc.GenericServerStream[SubscribeTradeRequest, TradeEvent]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type TradeService_SubscribeTradeServer = grpc.BidiStreamingServer[SubscribeTradeRequest, TradeEvent]
+type TradeServiceBsc_SubscribeTradeServer = grpc.BidiStreamingServer[SubscribeTradeRequest, TradeEvent]
 
-// TradeService_ServiceDesc is the grpc.ServiceDesc for TradeService service.
+// TradeServiceBsc_ServiceDesc is the grpc.ServiceDesc for TradeServiceBsc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var TradeService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "trade.v1.TradeService",
-	HandlerType: (*TradeServiceServer)(nil),
+var TradeServiceBsc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "trade.v1.TradeServiceBsc",
+	HandlerType: (*TradeServiceBscServer)(nil),
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "SubscribeTrade",
-			Handler:       _TradeService_SubscribeTrade_Handler,
+			Handler:       _TradeServiceBsc_SubscribeTrade_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},
