@@ -10,17 +10,17 @@ option java_outer_classname = "TradeServiceProtoV1";
 // 交易服务
 service TradeServiceSol {
   // 订阅交易流（支持动态切换 mint 地址）
-  rpc SubscribeTrade(stream SubscribeTradeRequest) returns (stream TradeResponse);
+  rpc SubscribeTradeSol(stream SubscribeTradeRequestSol) returns (stream TradeResponseSol);
 }
 
 // 订阅交易请求
-message SubscribeTradeRequest {
+message SubscribeTradeRequestSol {
   // 代币 mint 地址
   string mint_address = 1;
 }
 
 // 交易响应
-message TradeResponse {
+message TradeResponseSol {
   // 交易签名
   string signature = 1;
   // 用户地址

@@ -10,16 +10,16 @@ option java_outer_classname = "TradeProtoV1";
 // 交易订阅服务
 service TradeServiceBsc {
   // 订阅代币交易流 - 双向流，支持动态切换mint地址
-  rpc SubscribeTrade (stream SubscribeTradeRequest) returns (stream TradeEvent);
+  rpc SubscribeTradeBsc (stream SubscribeTradeRequestBsc) returns (stream TradeEventBsc);
 }
 
 // 订阅交易请求
-message SubscribeTradeRequest {
+message SubscribeTradeRequestBsc {
   string mint_address = 1; // 要订阅的代币地址
 }
 
 // 交易事件
-message TradeEvent {
+message TradeEventBsc {
   string signature = 1;      // 交易hash
   string user_address = 2;   // 用户地址
   string input_mint = 3;     // 输入代币地址
