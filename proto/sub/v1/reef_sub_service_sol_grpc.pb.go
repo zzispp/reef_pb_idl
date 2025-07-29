@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TradeServiceSol_SubscribeTradeSol_FullMethodName = "/trade_service.TradeServiceSol/SubscribeTradeSol"
+	TradeServiceSol_SubscribeTradeSol_FullMethodName    = "/trade_service.TradeServiceSol/SubscribeTradeSol"
+	TradeServiceSol_SubscribeLatestTrade_FullMethodName = "/trade_service.TradeServiceSol/SubscribeLatestTrade"
 )
 
 // TradeServiceSolClient is the client API for TradeServiceSol service.
@@ -30,6 +31,8 @@ const (
 type TradeServiceSolClient interface {
 	// 订阅交易流（支持动态切换 mint 地址）
 	SubscribeTradeSol(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[SubscribeTradeRequestSol, TradeResponseSol], error)
+	// 订阅最新交易流（所有代币）
+	SubscribeLatestTrade(ctx context.Context, in *SubscribeLatestTradeRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[TradeResponseSol], error)
 }
 
 type tradeServiceSolClient struct {
@@ -53,6 +56,25 @@ func (c *tradeServiceSolClient) SubscribeTradeSol(ctx context.Context, opts ...g
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type TradeServiceSol_SubscribeTradeSolClient = grpc.BidiStreamingClient[SubscribeTradeRequestSol, TradeResponseSol]
 
+func (c *tradeServiceSolClient) SubscribeLatestTrade(ctx context.Context, in *SubscribeLatestTradeRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[TradeResponseSol], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &TradeServiceSol_ServiceDesc.Streams[1], TradeServiceSol_SubscribeLatestTrade_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[SubscribeLatestTradeRequest, TradeResponseSol]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type TradeServiceSol_SubscribeLatestTradeClient = grpc.ServerStreamingClient[TradeResponseSol]
+
 // TradeServiceSolServer is the server API for TradeServiceSol service.
 // All implementations must embed UnimplementedTradeServiceSolServer
 // for forward compatibility.
@@ -61,6 +83,8 @@ type TradeServiceSol_SubscribeTradeSolClient = grpc.BidiStreamingClient[Subscrib
 type TradeServiceSolServer interface {
 	// 订阅交易流（支持动态切换 mint 地址）
 	SubscribeTradeSol(grpc.BidiStreamingServer[SubscribeTradeRequestSol, TradeResponseSol]) error
+	// 订阅最新交易流（所有代币）
+	SubscribeLatestTrade(*SubscribeLatestTradeRequest, grpc.ServerStreamingServer[TradeResponseSol]) error
 	mustEmbedUnimplementedTradeServiceSolServer()
 }
 
@@ -73,6 +97,9 @@ type UnimplementedTradeServiceSolServer struct{}
 
 func (UnimplementedTradeServiceSolServer) SubscribeTradeSol(grpc.BidiStreamingServer[SubscribeTradeRequestSol, TradeResponseSol]) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeTradeSol not implemented")
+}
+func (UnimplementedTradeServiceSolServer) SubscribeLatestTrade(*SubscribeLatestTradeRequest, grpc.ServerStreamingServer[TradeResponseSol]) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeLatestTrade not implemented")
 }
 func (UnimplementedTradeServiceSolServer) mustEmbedUnimplementedTradeServiceSolServer() {}
 func (UnimplementedTradeServiceSolServer) testEmbeddedByValue()                         {}
@@ -102,6 +129,17 @@ func _TradeServiceSol_SubscribeTradeSol_Handler(srv interface{}, stream grpc.Ser
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type TradeServiceSol_SubscribeTradeSolServer = grpc.BidiStreamingServer[SubscribeTradeRequestSol, TradeResponseSol]
 
+func _TradeServiceSol_SubscribeLatestTrade_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(SubscribeLatestTradeRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(TradeServiceSolServer).SubscribeLatestTrade(m, &grpc.GenericServerStream[SubscribeLatestTradeRequest, TradeResponseSol]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type TradeServiceSol_SubscribeLatestTradeServer = grpc.ServerStreamingServer[TradeResponseSol]
+
 // TradeServiceSol_ServiceDesc is the grpc.ServiceDesc for TradeServiceSol service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -115,6 +153,11 @@ var TradeServiceSol_ServiceDesc = grpc.ServiceDesc{
 			Handler:       _TradeServiceSol_SubscribeTradeSol_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
+		},
+		{
+			StreamName:    "SubscribeLatestTrade",
+			Handler:       _TradeServiceSol_SubscribeLatestTrade_Handler,
+			ServerStreams: true,
 		},
 	},
 	Metadata: "sub/v1/reef_sub_service_sol.proto",

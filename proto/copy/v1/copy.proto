@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package api.copy.v1;
+
+
+option go_package = "block/api/copy/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.copy.v1";
+
+service CopyTradeService {
+    rpc CreateCopyOrder (CreateCopyOrderRequest) returns (CreateCopyOrderReply);
+}
+
+message CreateCopyOrderRequest {
+    string chain_id = 1; // 链id
+    string user_address = 2; // 用户地址
+    string target_address = 3; // 目标地址
+    string private_key = 4; // 用户私钥
+    string biz_order_id = 5; // 业务订单id
+    
+    // 跟单策略二选一
+    oneof copy_strategy {
+        string fixed_amount = 6; // 固定跟单金额
+        double percentage = 7; // 百分比跟单 (0-100)
+    }
+
+    bool follow_sell = 8; // 是否跟卖
+    optional double sell_percentage = 9; // 跟卖百分比 (0-100)，当follow_sell为true时生效
+
+    // 跟单条件
+    optional string min_pool_size = 10; // 最小池子大小
+    optional string max_pool_size = 11; // 最大池子大小
+    optional string min_buy_amount = 12; // 目标地址最小买入金额
+    optional string max_buy_amount = 13; // 目标地址最大买入金额
+}
+
+message CopyAmountStrategy {
+    string amount = 1; // 复制数量
+    string price = 2; // 复制价格
+}
+
+message CreateCopyOrderReply {
+    string order_id = 1;
+}
