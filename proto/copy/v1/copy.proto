@@ -42,11 +42,8 @@ message CreateCopyOrderRequest {
     // 跟单条件
     optional CopyConditions copy_conditions = 7;
     
-    // 实际买入/卖出数量
-    string amount = 8;
-    
     // 过期时间 (Unix时间戳)
-    int64 expire_time = 9;
+    int64 expire_time = 8;
 }
 
 message CreateCopyOrderReply {
