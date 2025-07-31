@@ -28,11 +28,8 @@ message BuyStrategy {
 
 // 卖出策略
 message SellStrategy {
-    uint32 strategy = 1; // 策略类型: 0是固定比例 1是百分比跟随
-    string strategy_value = 2; // 策略值：固定比例或百分比
-    double slippage_tolerance = 3; // 滑点容忍度
-    optional string min_sell_amount = 4; // 最小卖出金额(带精度)
-    optional string max_sell_amount = 5; // 最大卖出金额(带精度)
+    double percentage = 1; // 卖出百分比
+    double slippage_tolerance = 2; // 滑点容忍度
 }
 
 // 跟单条件
