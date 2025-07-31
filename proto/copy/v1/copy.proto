@@ -100,10 +100,21 @@ message GetCopyOrderListRequest {
     string biz_user_id = 3; // 业务用户id
     string chain = 4; // 链
     string biz_order_id = 5; // 业务订单id
+
+
+
+
+    int32 page = 6; // 页码，从1开始，默认为1
+    int32 page_size = 7; // 页大小，默认为20，最大100
 }
 
 message GetCopyOrderListReply {
     repeated GetCopyOrderReply orders = 1; // 订单列表
+
+        // 分页信息
+    int64 total = 6; // 总记录数
+    int32 page = 7; // 当前页码
+    int32 page_size = 8; // 当前页大小
 }
 
 message CancelCopyOrderRequest {
