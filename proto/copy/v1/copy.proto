@@ -10,6 +10,13 @@ service CopyTradeService {
     rpc CreateCopyOrder (CreateCopyOrderRequest) returns (CreateCopyOrderReply);
 }
 
+// 交易类型
+enum TradeType {
+    TRADE_TYPE_UNSPECIFIED = 0;
+    TRADE_TYPE_BUY = 1;  // 买入
+    TRADE_TYPE_SELL = 2; // 卖出
+}
+
 // 买入策略
 message BuyStrategy {
     string min_amount = 1; // 最小买入金额(带精度)
@@ -17,6 +24,15 @@ message BuyStrategy {
     uint32 strategy = 3; // 策略类型: 0是固定 1是百分比
     string strategy_value = 4; // 策略值：固定金额或百分比
     double slippage_tolerance = 5; // 滑点容忍度
+}
+
+// 卖出策略
+message SellStrategy {
+    uint32 strategy = 1; // 策略类型: 0是固定比例 1是百分比跟随
+    string strategy_value = 2; // 策略值：固定比例或百分比
+    double slippage_tolerance = 3; // 滑点容忍度
+    optional string min_sell_amount = 4; // 最小卖出金额(带精度)
+    optional string max_sell_amount = 5; // 最大卖出金额(带精度)
 }
 
 // 跟单条件
@@ -36,14 +52,20 @@ message CreateCopyOrderRequest {
     string private_key = 4; // 用户私钥
     string biz_order_id = 5; // 业务订单id
     
-    // 买入策略
-    optional BuyStrategy buy_strategy = 6;
+    // 交易类型
+    TradeType trade_type = 6;
+    
+    // 买入策略 (当trade_type包含买入时必填)
+    optional BuyStrategy buy_strategy = 7;
+    
+    // 卖出策略 (当trade_type包含卖出时必填)
+    optional SellStrategy sell_strategy = 8;
     
     // 跟单条件
-    optional CopyConditions copy_conditions = 7;
+    optional CopyConditions copy_conditions = 9;
     
     // 过期时间 (Unix时间戳)
-    int64 expire_time = 8;
+    int64 expire_time = 10;
 }
 
 message CreateCopyOrderReply {
