@@ -19,7 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CopyTradeService_CreateCopyOrder_FullMethodName = "/api.copy.v1.CopyTradeService/CreateCopyOrder"
+	CopyTradeService_CreateCopyOrder_FullMethodName  = "/api.copy.v1.CopyTradeService/CreateCopyOrder"
+	CopyTradeService_GetCopyOrder_FullMethodName     = "/api.copy.v1.CopyTradeService/GetCopyOrder"
+	CopyTradeService_GetCopyOrderList_FullMethodName = "/api.copy.v1.CopyTradeService/GetCopyOrderList"
+	CopyTradeService_CancelCopyOrder_FullMethodName  = "/api.copy.v1.CopyTradeService/CancelCopyOrder"
 )
 
 // CopyTradeServiceClient is the client API for CopyTradeService service.
@@ -27,6 +30,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CopyTradeServiceClient interface {
 	CreateCopyOrder(ctx context.Context, in *CreateCopyOrderRequest, opts ...grpc.CallOption) (*CreateCopyOrderReply, error)
+	GetCopyOrder(ctx context.Context, in *GetCopyOrderRequest, opts ...grpc.CallOption) (*GetCopyOrderReply, error)
+	GetCopyOrderList(ctx context.Context, in *GetCopyOrderListRequest, opts ...grpc.CallOption) (*GetCopyOrderListReply, error)
+	CancelCopyOrder(ctx context.Context, in *CancelCopyOrderRequest, opts ...grpc.CallOption) (*CancelCopyOrderReply, error)
 }
 
 type copyTradeServiceClient struct {
@@ -47,11 +53,44 @@ func (c *copyTradeServiceClient) CreateCopyOrder(ctx context.Context, in *Create
 	return out, nil
 }
 
+func (c *copyTradeServiceClient) GetCopyOrder(ctx context.Context, in *GetCopyOrderRequest, opts ...grpc.CallOption) (*GetCopyOrderReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCopyOrderReply)
+	err := c.cc.Invoke(ctx, CopyTradeService_GetCopyOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *copyTradeServiceClient) GetCopyOrderList(ctx context.Context, in *GetCopyOrderListRequest, opts ...grpc.CallOption) (*GetCopyOrderListReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCopyOrderListReply)
+	err := c.cc.Invoke(ctx, CopyTradeService_GetCopyOrderList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *copyTradeServiceClient) CancelCopyOrder(ctx context.Context, in *CancelCopyOrderRequest, opts ...grpc.CallOption) (*CancelCopyOrderReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CancelCopyOrderReply)
+	err := c.cc.Invoke(ctx, CopyTradeService_CancelCopyOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CopyTradeServiceServer is the server API for CopyTradeService service.
 // All implementations must embed UnimplementedCopyTradeServiceServer
 // for forward compatibility.
 type CopyTradeServiceServer interface {
 	CreateCopyOrder(context.Context, *CreateCopyOrderRequest) (*CreateCopyOrderReply, error)
+	GetCopyOrder(context.Context, *GetCopyOrderRequest) (*GetCopyOrderReply, error)
+	GetCopyOrderList(context.Context, *GetCopyOrderListRequest) (*GetCopyOrderListReply, error)
+	CancelCopyOrder(context.Context, *CancelCopyOrderRequest) (*CancelCopyOrderReply, error)
 	mustEmbedUnimplementedCopyTradeServiceServer()
 }
 
@@ -64,6 +103,15 @@ type UnimplementedCopyTradeServiceServer struct{}
 
 func (UnimplementedCopyTradeServiceServer) CreateCopyOrder(context.Context, *CreateCopyOrderRequest) (*CreateCopyOrderReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCopyOrder not implemented")
+}
+func (UnimplementedCopyTradeServiceServer) GetCopyOrder(context.Context, *GetCopyOrderRequest) (*GetCopyOrderReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCopyOrder not implemented")
+}
+func (UnimplementedCopyTradeServiceServer) GetCopyOrderList(context.Context, *GetCopyOrderListRequest) (*GetCopyOrderListReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCopyOrderList not implemented")
+}
+func (UnimplementedCopyTradeServiceServer) CancelCopyOrder(context.Context, *CancelCopyOrderRequest) (*CancelCopyOrderReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelCopyOrder not implemented")
 }
 func (UnimplementedCopyTradeServiceServer) mustEmbedUnimplementedCopyTradeServiceServer() {}
 func (UnimplementedCopyTradeServiceServer) testEmbeddedByValue()                          {}
@@ -104,6 +152,60 @@ func _CopyTradeService_CreateCopyOrder_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CopyTradeService_GetCopyOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCopyOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CopyTradeServiceServer).GetCopyOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CopyTradeService_GetCopyOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CopyTradeServiceServer).GetCopyOrder(ctx, req.(*GetCopyOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CopyTradeService_GetCopyOrderList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCopyOrderListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CopyTradeServiceServer).GetCopyOrderList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CopyTradeService_GetCopyOrderList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CopyTradeServiceServer).GetCopyOrderList(ctx, req.(*GetCopyOrderListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CopyTradeService_CancelCopyOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelCopyOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CopyTradeServiceServer).CancelCopyOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CopyTradeService_CancelCopyOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CopyTradeServiceServer).CancelCopyOrder(ctx, req.(*CancelCopyOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CopyTradeService_ServiceDesc is the grpc.ServiceDesc for CopyTradeService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +216,18 @@ var CopyTradeService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateCopyOrder",
 			Handler:    _CopyTradeService_CreateCopyOrder_Handler,
+		},
+		{
+			MethodName: "GetCopyOrder",
+			Handler:    _CopyTradeService_GetCopyOrder_Handler,
+		},
+		{
+			MethodName: "GetCopyOrderList",
+			Handler:    _CopyTradeService_GetCopyOrderList_Handler,
+		},
+		{
+			MethodName: "CancelCopyOrder",
+			Handler:    _CopyTradeService_CancelCopyOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

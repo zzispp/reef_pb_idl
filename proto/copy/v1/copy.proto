@@ -8,6 +8,9 @@ option java_package = "api.copy.v1";
 
 service CopyTradeService {
     rpc CreateCopyOrder (CreateCopyOrderRequest) returns (CreateCopyOrderReply);
+    rpc GetCopyOrder (GetCopyOrderRequest) returns (GetCopyOrderReply);
+    rpc GetCopyOrderList (GetCopyOrderListRequest) returns (GetCopyOrderListReply);
+    rpc CancelCopyOrder (CancelCopyOrderRequest) returns (CancelCopyOrderReply);
 }
 
 // 交易类型
@@ -48,23 +51,65 @@ message CreateCopyOrderRequest {
     string target_address = 3; // 目标地址
     string private_key = 4; // 用户私钥
     string biz_order_id = 5; // 业务订单id
+    string biz_user_id = 6; // 业务用户id
     
     // 交易类型
-    TradeType trade_type = 6;
+    TradeType trade_type = 7;
     
     // 买入策略 (当trade_type包含买入时必填)
-    optional BuyStrategy buy_strategy = 7;
+    optional BuyStrategy buy_strategy = 8;
     
     // 卖出策略 (当trade_type包含卖出时必填)
-    optional SellStrategy sell_strategy = 8;
+    optional SellStrategy sell_strategy = 9;
     
     // 跟单条件
-    optional CopyConditions copy_conditions = 9;
+    optional CopyConditions copy_conditions = 10;
     
     // 过期时间 (Unix时间戳)
-    int64 expire_time = 10;
+    int64 expire_time = 11;
 }
 
 message CreateCopyOrderReply {
+    string order_id = 1;
+}
+
+message GetCopyOrderRequest {
+    string order_id = 1;
+}
+
+message GetCopyOrderReply {
+    string order_id = 1; // 订单ID
+    string chain = 2; // 链
+    string user_address = 3; // 用户地址
+    string target_address = 4; // 目标地址
+    string biz_order_id = 5; // 业务订单id
+    TradeType trade_type = 6; // 交易类型
+    optional BuyStrategy buy_strategy = 7; // 买入策略
+    optional SellStrategy sell_strategy = 8; // 卖出策略
+    optional CopyConditions copy_conditions = 9; // 跟单条件
+    int64 expire_time = 10; // 过期时间
+    uint64 status = 11; // 状态
+    string message = 12; // 消息
+    string created_at = 13; // 创建时间
+    string updated_at = 14; // 更新时间
+}
+
+message GetCopyOrderListRequest {
+    string user_address = 1; // 用户地址
+    string target_address = 2; // 目标地址
+    string biz_user_id = 3; // 业务用户id
+    string chain = 4; // 链
+    string biz_order_id = 5; // 业务订单id
+}
+
+message GetCopyOrderListReply {
+    repeated GetCopyOrderReply orders = 1; // 订单列表
+}
+
+message CancelCopyOrderRequest {
+    string order_id = 1;
+}
+
+message CancelCopyOrderReply {
     string order_id = 1;
 }
