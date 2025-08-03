@@ -562,17 +562,17 @@ type GetCopyOrderReply struct {
 	Chain          string                 `protobuf:"bytes,2,opt,name=chain,proto3" json:"chain,omitempty"`                                                      // 链
 	UserAddress    string                 `protobuf:"bytes,3,opt,name=user_address,json=userAddress,proto3" json:"user_address,omitempty"`                       // 用户地址
 	TargetAddress  string                 `protobuf:"bytes,4,opt,name=target_address,json=targetAddress,proto3" json:"target_address,omitempty"`                 // 目标地址
-	BizOrderId     string                 `protobuf:"bytes,5,opt,name=biz_order_id,json=bizOrderId,proto3" json:"biz_order_id,omitempty"`                        // 业务订单id
+	BizUserId      string                 `protobuf:"bytes,5,opt,name=biz_user_id,json=bizUserId,proto3" json:"biz_user_id,omitempty"`                           // 业务用户id
 	TradeType      TradeType              `protobuf:"varint,6,opt,name=trade_type,json=tradeType,proto3,enum=api.copy.v1.TradeType" json:"trade_type,omitempty"` // 交易类型
 	BuyStrategy    *BuyStrategy           `protobuf:"bytes,7,opt,name=buy_strategy,json=buyStrategy,proto3,oneof" json:"buy_strategy,omitempty"`                 // 买入策略
-	SellStrategy   *SellStrategy          `protobuf:"bytes,8,opt,name=sell_strategy,json=sellStrategy,proto3,oneof" json:"sell_strategy,omitempty"`              // 卖出策略
-	CopyConditions *CopyConditions        `protobuf:"bytes,9,opt,name=copy_conditions,json=copyConditions,proto3,oneof" json:"copy_conditions,omitempty"`        // 跟单条件
-	ExpireTime     int64                  `protobuf:"varint,10,opt,name=expire_time,json=expireTime,proto3" json:"expire_time,omitempty"`                        // 过期时间
-	Status         uint64                 `protobuf:"varint,11,opt,name=status,proto3" json:"status,omitempty"`                                                  // 状态
-	Message        string                 `protobuf:"bytes,12,opt,name=message,proto3" json:"message,omitempty"`                                                 // 消息
-	CreatedAt      string                 `protobuf:"bytes,13,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                            // 创建时间
-	UpdatedAt      string                 `protobuf:"bytes,14,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`                            // 更新时间
-	Logs           []*LogEntry            `protobuf:"bytes,15,rep,name=logs,proto3" json:"logs,omitempty"`                                                       // 执行日志
+	SellStrategy   *SellStrategy          `protobuf:"bytes,9,opt,name=sell_strategy,json=sellStrategy,proto3,oneof" json:"sell_strategy,omitempty"`              // 卖出策略
+	CopyConditions *CopyConditions        `protobuf:"bytes,10,opt,name=copy_conditions,json=copyConditions,proto3,oneof" json:"copy_conditions,omitempty"`       // 跟单条件
+	ExpireTime     int64                  `protobuf:"varint,11,opt,name=expire_time,json=expireTime,proto3" json:"expire_time,omitempty"`                        // 过期时间
+	Status         uint64                 `protobuf:"varint,12,opt,name=status,proto3" json:"status,omitempty"`                                                  // 状态
+	Message        string                 `protobuf:"bytes,13,opt,name=message,proto3" json:"message,omitempty"`                                                 // 消息
+	CreatedAt      string                 `protobuf:"bytes,14,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                            // 创建时间
+	UpdatedAt      string                 `protobuf:"bytes,15,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`                            // 更新时间
+	Logs           []*LogEntry            `protobuf:"bytes,16,rep,name=logs,proto3" json:"logs,omitempty"`                                                       // 执行日志
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -635,9 +635,9 @@ func (x *GetCopyOrderReply) GetTargetAddress() string {
 	return ""
 }
 
-func (x *GetCopyOrderReply) GetBizOrderId() string {
+func (x *GetCopyOrderReply) GetBizUserId() string {
 	if x != nil {
-		return x.BizOrderId
+		return x.BizUserId
 	}
 	return ""
 }
@@ -1018,29 +1018,28 @@ const file_copy_v1_copy_proto_rawDesc = "" +
 	"\x14CreateCopyOrderReply\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"0\n" +
 	"\x13GetCopyOrderRequest\x12\x19\n" +
-	"\border_id\x18\x01 \x01(\tR\aorderId\"\xac\x05\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId\"\xaa\x05\n" +
 	"\x11GetCopyOrderReply\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12\x14\n" +
 	"\x05chain\x18\x02 \x01(\tR\x05chain\x12!\n" +
 	"\fuser_address\x18\x03 \x01(\tR\vuserAddress\x12%\n" +
-	"\x0etarget_address\x18\x04 \x01(\tR\rtargetAddress\x12 \n" +
-	"\fbiz_order_id\x18\x05 \x01(\tR\n" +
-	"bizOrderId\x125\n" +
+	"\x0etarget_address\x18\x04 \x01(\tR\rtargetAddress\x12\x1e\n" +
+	"\vbiz_user_id\x18\x05 \x01(\tR\tbizUserId\x125\n" +
 	"\n" +
 	"trade_type\x18\x06 \x01(\x0e2\x16.api.copy.v1.TradeTypeR\ttradeType\x12@\n" +
 	"\fbuy_strategy\x18\a \x01(\v2\x18.api.copy.v1.BuyStrategyH\x00R\vbuyStrategy\x88\x01\x01\x12C\n" +
-	"\rsell_strategy\x18\b \x01(\v2\x19.api.copy.v1.SellStrategyH\x01R\fsellStrategy\x88\x01\x01\x12I\n" +
-	"\x0fcopy_conditions\x18\t \x01(\v2\x1b.api.copy.v1.CopyConditionsH\x02R\x0ecopyConditions\x88\x01\x01\x12\x1f\n" +
-	"\vexpire_time\x18\n" +
-	" \x01(\x03R\n" +
+	"\rsell_strategy\x18\t \x01(\v2\x19.api.copy.v1.SellStrategyH\x01R\fsellStrategy\x88\x01\x01\x12I\n" +
+	"\x0fcopy_conditions\x18\n" +
+	" \x01(\v2\x1b.api.copy.v1.CopyConditionsH\x02R\x0ecopyConditions\x88\x01\x01\x12\x1f\n" +
+	"\vexpire_time\x18\v \x01(\x03R\n" +
 	"expireTime\x12\x16\n" +
-	"\x06status\x18\v \x01(\x04R\x06status\x12\x18\n" +
-	"\amessage\x18\f \x01(\tR\amessage\x12\x1d\n" +
+	"\x06status\x18\f \x01(\x04R\x06status\x12\x18\n" +
+	"\amessage\x18\r \x01(\tR\amessage\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\r \x01(\tR\tcreatedAt\x12\x1d\n" +
+	"created_at\x18\x0e \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\x0e \x01(\tR\tupdatedAt\x12)\n" +
-	"\x04logs\x18\x0f \x03(\v2\x15.api.copy.v1.LogEntryR\x04logsB\x0f\n" +
+	"updated_at\x18\x0f \x01(\tR\tupdatedAt\x12)\n" +
+	"\x04logs\x18\x10 \x03(\v2\x15.api.copy.v1.LogEntryR\x04logsB\x0f\n" +
 	"\r_buy_strategyB\x10\n" +
 	"\x0e_sell_strategyB\x12\n" +
 	"\x10_copy_conditions\"\xec\x01\n" +
