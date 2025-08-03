@@ -71,6 +71,59 @@ func (TradeType) EnumDescriptor() ([]byte, []int) {
 	return file_copy_v1_copy_proto_rawDescGZIP(), []int{0}
 }
 
+// 日志条目
+type LogEntry struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Timestamp     int64                  `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"` // 时间戳
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`      // 日志信息
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LogEntry) Reset() {
+	*x = LogEntry{}
+	mi := &file_copy_v1_copy_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LogEntry) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogEntry) ProtoMessage() {}
+
+func (x *LogEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_copy_v1_copy_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogEntry.ProtoReflect.Descriptor instead.
+func (*LogEntry) Descriptor() ([]byte, []int) {
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *LogEntry) GetTimestamp() int64 {
+	if x != nil {
+		return x.Timestamp
+	}
+	return 0
+}
+
+func (x *LogEntry) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 // 买入策略
 type BuyStrategy struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
@@ -85,7 +138,7 @@ type BuyStrategy struct {
 
 func (x *BuyStrategy) Reset() {
 	*x = BuyStrategy{}
-	mi := &file_copy_v1_copy_proto_msgTypes[0]
+	mi := &file_copy_v1_copy_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -97,7 +150,7 @@ func (x *BuyStrategy) String() string {
 func (*BuyStrategy) ProtoMessage() {}
 
 func (x *BuyStrategy) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[0]
+	mi := &file_copy_v1_copy_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -110,7 +163,7 @@ func (x *BuyStrategy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BuyStrategy.ProtoReflect.Descriptor instead.
 func (*BuyStrategy) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{0}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *BuyStrategy) GetMinAmount() string {
@@ -159,7 +212,7 @@ type SellStrategy struct {
 
 func (x *SellStrategy) Reset() {
 	*x = SellStrategy{}
-	mi := &file_copy_v1_copy_proto_msgTypes[1]
+	mi := &file_copy_v1_copy_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -171,7 +224,7 @@ func (x *SellStrategy) String() string {
 func (*SellStrategy) ProtoMessage() {}
 
 func (x *SellStrategy) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[1]
+	mi := &file_copy_v1_copy_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -184,7 +237,7 @@ func (x *SellStrategy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SellStrategy.ProtoReflect.Descriptor instead.
 func (*SellStrategy) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{1}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *SellStrategy) GetPercentage() float64 {
@@ -216,7 +269,7 @@ type CopyConditions struct {
 
 func (x *CopyConditions) Reset() {
 	*x = CopyConditions{}
-	mi := &file_copy_v1_copy_proto_msgTypes[2]
+	mi := &file_copy_v1_copy_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -228,7 +281,7 @@ func (x *CopyConditions) String() string {
 func (*CopyConditions) ProtoMessage() {}
 
 func (x *CopyConditions) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[2]
+	mi := &file_copy_v1_copy_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -241,7 +294,7 @@ func (x *CopyConditions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CopyConditions.ProtoReflect.Descriptor instead.
 func (*CopyConditions) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{2}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CopyConditions) GetMinPoolSize() string {
@@ -310,7 +363,7 @@ type CreateCopyOrderRequest struct {
 
 func (x *CreateCopyOrderRequest) Reset() {
 	*x = CreateCopyOrderRequest{}
-	mi := &file_copy_v1_copy_proto_msgTypes[3]
+	mi := &file_copy_v1_copy_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -322,7 +375,7 @@ func (x *CreateCopyOrderRequest) String() string {
 func (*CreateCopyOrderRequest) ProtoMessage() {}
 
 func (x *CreateCopyOrderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[3]
+	mi := &file_copy_v1_copy_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -335,7 +388,7 @@ func (x *CreateCopyOrderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCopyOrderRequest.ProtoReflect.Descriptor instead.
 func (*CreateCopyOrderRequest) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{3}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateCopyOrderRequest) GetChain() string {
@@ -424,7 +477,7 @@ type CreateCopyOrderReply struct {
 
 func (x *CreateCopyOrderReply) Reset() {
 	*x = CreateCopyOrderReply{}
-	mi := &file_copy_v1_copy_proto_msgTypes[4]
+	mi := &file_copy_v1_copy_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -436,7 +489,7 @@ func (x *CreateCopyOrderReply) String() string {
 func (*CreateCopyOrderReply) ProtoMessage() {}
 
 func (x *CreateCopyOrderReply) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[4]
+	mi := &file_copy_v1_copy_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -449,7 +502,7 @@ func (x *CreateCopyOrderReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCopyOrderReply.ProtoReflect.Descriptor instead.
 func (*CreateCopyOrderReply) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{4}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateCopyOrderReply) GetOrderId() string {
@@ -468,7 +521,7 @@ type GetCopyOrderRequest struct {
 
 func (x *GetCopyOrderRequest) Reset() {
 	*x = GetCopyOrderRequest{}
-	mi := &file_copy_v1_copy_proto_msgTypes[5]
+	mi := &file_copy_v1_copy_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -480,7 +533,7 @@ func (x *GetCopyOrderRequest) String() string {
 func (*GetCopyOrderRequest) ProtoMessage() {}
 
 func (x *GetCopyOrderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[5]
+	mi := &file_copy_v1_copy_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -493,7 +546,7 @@ func (x *GetCopyOrderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCopyOrderRequest.ProtoReflect.Descriptor instead.
 func (*GetCopyOrderRequest) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{5}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetCopyOrderRequest) GetOrderId() string {
@@ -519,13 +572,14 @@ type GetCopyOrderReply struct {
 	Message        string                 `protobuf:"bytes,12,opt,name=message,proto3" json:"message,omitempty"`                                                 // 消息
 	CreatedAt      string                 `protobuf:"bytes,13,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                            // 创建时间
 	UpdatedAt      string                 `protobuf:"bytes,14,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`                            // 更新时间
+	Logs           []*LogEntry            `protobuf:"bytes,15,rep,name=logs,proto3" json:"logs,omitempty"`                                                       // 执行日志
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
 func (x *GetCopyOrderReply) Reset() {
 	*x = GetCopyOrderReply{}
-	mi := &file_copy_v1_copy_proto_msgTypes[6]
+	mi := &file_copy_v1_copy_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -537,7 +591,7 @@ func (x *GetCopyOrderReply) String() string {
 func (*GetCopyOrderReply) ProtoMessage() {}
 
 func (x *GetCopyOrderReply) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[6]
+	mi := &file_copy_v1_copy_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -550,7 +604,7 @@ func (x *GetCopyOrderReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCopyOrderReply.ProtoReflect.Descriptor instead.
 func (*GetCopyOrderReply) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{6}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetCopyOrderReply) GetOrderId() string {
@@ -651,6 +705,13 @@ func (x *GetCopyOrderReply) GetUpdatedAt() string {
 	return ""
 }
 
+func (x *GetCopyOrderReply) GetLogs() []*LogEntry {
+	if x != nil {
+		return x.Logs
+	}
+	return nil
+}
+
 type GetCopyOrderListRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserAddress   string                 `protobuf:"bytes,1,opt,name=user_address,json=userAddress,proto3" json:"user_address,omitempty"`       // 用户地址
@@ -666,7 +727,7 @@ type GetCopyOrderListRequest struct {
 
 func (x *GetCopyOrderListRequest) Reset() {
 	*x = GetCopyOrderListRequest{}
-	mi := &file_copy_v1_copy_proto_msgTypes[7]
+	mi := &file_copy_v1_copy_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -678,7 +739,7 @@ func (x *GetCopyOrderListRequest) String() string {
 func (*GetCopyOrderListRequest) ProtoMessage() {}
 
 func (x *GetCopyOrderListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[7]
+	mi := &file_copy_v1_copy_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -691,7 +752,7 @@ func (x *GetCopyOrderListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCopyOrderListRequest.ProtoReflect.Descriptor instead.
 func (*GetCopyOrderListRequest) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{7}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetCopyOrderListRequest) GetUserAddress() string {
@@ -756,7 +817,7 @@ type GetCopyOrderListReply struct {
 
 func (x *GetCopyOrderListReply) Reset() {
 	*x = GetCopyOrderListReply{}
-	mi := &file_copy_v1_copy_proto_msgTypes[8]
+	mi := &file_copy_v1_copy_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -768,7 +829,7 @@ func (x *GetCopyOrderListReply) String() string {
 func (*GetCopyOrderListReply) ProtoMessage() {}
 
 func (x *GetCopyOrderListReply) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[8]
+	mi := &file_copy_v1_copy_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -781,7 +842,7 @@ func (x *GetCopyOrderListReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCopyOrderListReply.ProtoReflect.Descriptor instead.
 func (*GetCopyOrderListReply) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{8}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetCopyOrderListReply) GetOrders() []*GetCopyOrderReply {
@@ -821,7 +882,7 @@ type CancelCopyOrderRequest struct {
 
 func (x *CancelCopyOrderRequest) Reset() {
 	*x = CancelCopyOrderRequest{}
-	mi := &file_copy_v1_copy_proto_msgTypes[9]
+	mi := &file_copy_v1_copy_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -833,7 +894,7 @@ func (x *CancelCopyOrderRequest) String() string {
 func (*CancelCopyOrderRequest) ProtoMessage() {}
 
 func (x *CancelCopyOrderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[9]
+	mi := &file_copy_v1_copy_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -846,7 +907,7 @@ func (x *CancelCopyOrderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelCopyOrderRequest.ProtoReflect.Descriptor instead.
 func (*CancelCopyOrderRequest) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{9}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CancelCopyOrderRequest) GetOrderId() string {
@@ -865,7 +926,7 @@ type CancelCopyOrderReply struct {
 
 func (x *CancelCopyOrderReply) Reset() {
 	*x = CancelCopyOrderReply{}
-	mi := &file_copy_v1_copy_proto_msgTypes[10]
+	mi := &file_copy_v1_copy_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -877,7 +938,7 @@ func (x *CancelCopyOrderReply) String() string {
 func (*CancelCopyOrderReply) ProtoMessage() {}
 
 func (x *CancelCopyOrderReply) ProtoReflect() protoreflect.Message {
-	mi := &file_copy_v1_copy_proto_msgTypes[10]
+	mi := &file_copy_v1_copy_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -890,7 +951,7 @@ func (x *CancelCopyOrderReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelCopyOrderReply.ProtoReflect.Descriptor instead.
 func (*CancelCopyOrderReply) Descriptor() ([]byte, []int) {
-	return file_copy_v1_copy_proto_rawDescGZIP(), []int{10}
+	return file_copy_v1_copy_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CancelCopyOrderReply) GetOrderId() string {
@@ -904,7 +965,10 @@ var File_copy_v1_copy_proto protoreflect.FileDescriptor
 
 const file_copy_v1_copy_proto_rawDesc = "" +
 	"\n" +
-	"\x12copy/v1/copy.proto\x12\vapi.copy.v1\"\xbd\x01\n" +
+	"\x12copy/v1/copy.proto\x12\vapi.copy.v1\"B\n" +
+	"\bLogEntry\x12\x1c\n" +
+	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\xbd\x01\n" +
 	"\vBuyStrategy\x12\x1d\n" +
 	"\n" +
 	"min_amount\x18\x01 \x01(\tR\tminAmount\x12\x1d\n" +
@@ -954,7 +1018,7 @@ const file_copy_v1_copy_proto_rawDesc = "" +
 	"\x14CreateCopyOrderReply\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"0\n" +
 	"\x13GetCopyOrderRequest\x12\x19\n" +
-	"\border_id\x18\x01 \x01(\tR\aorderId\"\x81\x05\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId\"\xac\x05\n" +
 	"\x11GetCopyOrderReply\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12\x14\n" +
 	"\x05chain\x18\x02 \x01(\tR\x05chain\x12!\n" +
@@ -975,7 +1039,8 @@ const file_copy_v1_copy_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\r \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\x0e \x01(\tR\tupdatedAtB\x0f\n" +
+	"updated_at\x18\x0e \x01(\tR\tupdatedAt\x12)\n" +
+	"\x04logs\x18\x0f \x03(\v2\x15.api.copy.v1.LogEntryR\x04logsB\x0f\n" +
 	"\r_buy_strategyB\x10\n" +
 	"\x0e_sell_strategyB\x12\n" +
 	"\x10_copy_conditions\"\xec\x01\n" +
@@ -1021,44 +1086,46 @@ func file_copy_v1_copy_proto_rawDescGZIP() []byte {
 }
 
 var file_copy_v1_copy_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_copy_v1_copy_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_copy_v1_copy_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_copy_v1_copy_proto_goTypes = []any{
 	(TradeType)(0),                  // 0: api.copy.v1.TradeType
-	(*BuyStrategy)(nil),             // 1: api.copy.v1.BuyStrategy
-	(*SellStrategy)(nil),            // 2: api.copy.v1.SellStrategy
-	(*CopyConditions)(nil),          // 3: api.copy.v1.CopyConditions
-	(*CreateCopyOrderRequest)(nil),  // 4: api.copy.v1.CreateCopyOrderRequest
-	(*CreateCopyOrderReply)(nil),    // 5: api.copy.v1.CreateCopyOrderReply
-	(*GetCopyOrderRequest)(nil),     // 6: api.copy.v1.GetCopyOrderRequest
-	(*GetCopyOrderReply)(nil),       // 7: api.copy.v1.GetCopyOrderReply
-	(*GetCopyOrderListRequest)(nil), // 8: api.copy.v1.GetCopyOrderListRequest
-	(*GetCopyOrderListReply)(nil),   // 9: api.copy.v1.GetCopyOrderListReply
-	(*CancelCopyOrderRequest)(nil),  // 10: api.copy.v1.CancelCopyOrderRequest
-	(*CancelCopyOrderReply)(nil),    // 11: api.copy.v1.CancelCopyOrderReply
+	(*LogEntry)(nil),                // 1: api.copy.v1.LogEntry
+	(*BuyStrategy)(nil),             // 2: api.copy.v1.BuyStrategy
+	(*SellStrategy)(nil),            // 3: api.copy.v1.SellStrategy
+	(*CopyConditions)(nil),          // 4: api.copy.v1.CopyConditions
+	(*CreateCopyOrderRequest)(nil),  // 5: api.copy.v1.CreateCopyOrderRequest
+	(*CreateCopyOrderReply)(nil),    // 6: api.copy.v1.CreateCopyOrderReply
+	(*GetCopyOrderRequest)(nil),     // 7: api.copy.v1.GetCopyOrderRequest
+	(*GetCopyOrderReply)(nil),       // 8: api.copy.v1.GetCopyOrderReply
+	(*GetCopyOrderListRequest)(nil), // 9: api.copy.v1.GetCopyOrderListRequest
+	(*GetCopyOrderListReply)(nil),   // 10: api.copy.v1.GetCopyOrderListReply
+	(*CancelCopyOrderRequest)(nil),  // 11: api.copy.v1.CancelCopyOrderRequest
+	(*CancelCopyOrderReply)(nil),    // 12: api.copy.v1.CancelCopyOrderReply
 }
 var file_copy_v1_copy_proto_depIdxs = []int32{
 	0,  // 0: api.copy.v1.CreateCopyOrderRequest.trade_type:type_name -> api.copy.v1.TradeType
-	1,  // 1: api.copy.v1.CreateCopyOrderRequest.buy_strategy:type_name -> api.copy.v1.BuyStrategy
-	2,  // 2: api.copy.v1.CreateCopyOrderRequest.sell_strategy:type_name -> api.copy.v1.SellStrategy
-	3,  // 3: api.copy.v1.CreateCopyOrderRequest.copy_conditions:type_name -> api.copy.v1.CopyConditions
+	2,  // 1: api.copy.v1.CreateCopyOrderRequest.buy_strategy:type_name -> api.copy.v1.BuyStrategy
+	3,  // 2: api.copy.v1.CreateCopyOrderRequest.sell_strategy:type_name -> api.copy.v1.SellStrategy
+	4,  // 3: api.copy.v1.CreateCopyOrderRequest.copy_conditions:type_name -> api.copy.v1.CopyConditions
 	0,  // 4: api.copy.v1.GetCopyOrderReply.trade_type:type_name -> api.copy.v1.TradeType
-	1,  // 5: api.copy.v1.GetCopyOrderReply.buy_strategy:type_name -> api.copy.v1.BuyStrategy
-	2,  // 6: api.copy.v1.GetCopyOrderReply.sell_strategy:type_name -> api.copy.v1.SellStrategy
-	3,  // 7: api.copy.v1.GetCopyOrderReply.copy_conditions:type_name -> api.copy.v1.CopyConditions
-	7,  // 8: api.copy.v1.GetCopyOrderListReply.orders:type_name -> api.copy.v1.GetCopyOrderReply
-	4,  // 9: api.copy.v1.CopyTradeService.CreateCopyOrder:input_type -> api.copy.v1.CreateCopyOrderRequest
-	6,  // 10: api.copy.v1.CopyTradeService.GetCopyOrder:input_type -> api.copy.v1.GetCopyOrderRequest
-	8,  // 11: api.copy.v1.CopyTradeService.GetCopyOrderList:input_type -> api.copy.v1.GetCopyOrderListRequest
-	10, // 12: api.copy.v1.CopyTradeService.CancelCopyOrder:input_type -> api.copy.v1.CancelCopyOrderRequest
-	5,  // 13: api.copy.v1.CopyTradeService.CreateCopyOrder:output_type -> api.copy.v1.CreateCopyOrderReply
-	7,  // 14: api.copy.v1.CopyTradeService.GetCopyOrder:output_type -> api.copy.v1.GetCopyOrderReply
-	9,  // 15: api.copy.v1.CopyTradeService.GetCopyOrderList:output_type -> api.copy.v1.GetCopyOrderListReply
-	11, // 16: api.copy.v1.CopyTradeService.CancelCopyOrder:output_type -> api.copy.v1.CancelCopyOrderReply
-	13, // [13:17] is the sub-list for method output_type
-	9,  // [9:13] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	2,  // 5: api.copy.v1.GetCopyOrderReply.buy_strategy:type_name -> api.copy.v1.BuyStrategy
+	3,  // 6: api.copy.v1.GetCopyOrderReply.sell_strategy:type_name -> api.copy.v1.SellStrategy
+	4,  // 7: api.copy.v1.GetCopyOrderReply.copy_conditions:type_name -> api.copy.v1.CopyConditions
+	1,  // 8: api.copy.v1.GetCopyOrderReply.logs:type_name -> api.copy.v1.LogEntry
+	8,  // 9: api.copy.v1.GetCopyOrderListReply.orders:type_name -> api.copy.v1.GetCopyOrderReply
+	5,  // 10: api.copy.v1.CopyTradeService.CreateCopyOrder:input_type -> api.copy.v1.CreateCopyOrderRequest
+	7,  // 11: api.copy.v1.CopyTradeService.GetCopyOrder:input_type -> api.copy.v1.GetCopyOrderRequest
+	9,  // 12: api.copy.v1.CopyTradeService.GetCopyOrderList:input_type -> api.copy.v1.GetCopyOrderListRequest
+	11, // 13: api.copy.v1.CopyTradeService.CancelCopyOrder:input_type -> api.copy.v1.CancelCopyOrderRequest
+	6,  // 14: api.copy.v1.CopyTradeService.CreateCopyOrder:output_type -> api.copy.v1.CreateCopyOrderReply
+	8,  // 15: api.copy.v1.CopyTradeService.GetCopyOrder:output_type -> api.copy.v1.GetCopyOrderReply
+	10, // 16: api.copy.v1.CopyTradeService.GetCopyOrderList:output_type -> api.copy.v1.GetCopyOrderListReply
+	12, // 17: api.copy.v1.CopyTradeService.CancelCopyOrder:output_type -> api.copy.v1.CancelCopyOrderReply
+	14, // [14:18] is the sub-list for method output_type
+	10, // [10:14] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_copy_v1_copy_proto_init() }
@@ -1066,16 +1133,16 @@ func file_copy_v1_copy_proto_init() {
 	if File_copy_v1_copy_proto != nil {
 		return
 	}
-	file_copy_v1_copy_proto_msgTypes[2].OneofWrappers = []any{}
 	file_copy_v1_copy_proto_msgTypes[3].OneofWrappers = []any{}
-	file_copy_v1_copy_proto_msgTypes[6].OneofWrappers = []any{}
+	file_copy_v1_copy_proto_msgTypes[4].OneofWrappers = []any{}
+	file_copy_v1_copy_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_copy_v1_copy_proto_rawDesc), len(file_copy_v1_copy_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
