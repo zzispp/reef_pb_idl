@@ -29,6 +29,10 @@ enum StopLossProfitType {
 message LimitOrderBuy {
     double target_price = 1; // 目标价格
     double amount = 2; // 购买数量(主网币数量)
+    optional double take_profit_percent = 3; // 止盈百分比
+    optional double stop_loss_percent = 4; // 止损百分比
+    optional string take_profit_order_id = 5; // 止盈订单ID
+    optional string stop_loss_order_id = 6; // 止损订单ID
 }
 
 // 限价卖出订单
@@ -43,16 +47,6 @@ message LimitOrderStopLossProfit {
     StopLossProfitType type = 1; // 止盈或止损
     double percent = 2; // 百分比
     double token_value_usdt = 3; // 下单时候的代币价值(USDT)
-}
-
-// 全自动限价单（买入+止盈+止损）
-message LimitOrderAuto {
-    double target_price = 1; // 买入目标价格
-    double amount = 2; // 购买数量(主网币数量)
-    double take_profit_percent = 3; // 止盈百分比
-    double stop_loss_percent = 4; // 止损百分比
-    string take_profit_order_id = 5; // 止盈订单ID
-    string stop_loss_order_id = 6; // 止损订单ID
 }
 
 message CreateLimitOrderRequest {
@@ -70,7 +64,6 @@ message CreateLimitOrderRequest {
         LimitOrderBuy limit_buy = 9; // 限价买入订单
         LimitOrderSell limit_sell = 10; // 限价卖出订单
         LimitOrderStopLossProfit stop_loss_profit = 11; // 止盈止损订单
-        LimitOrderAuto auto_order = 12; // 全自动限价订单
     }
 }
 
@@ -111,7 +104,6 @@ message LimitOrder {
         LimitOrderBuy limit_buy = 15; // 限价买入订单
         LimitOrderSell limit_sell = 16; // 限价卖出订单
         LimitOrderStopLossProfit stop_loss_profit = 17; // 止盈止损订单
-        LimitOrderAuto auto_order = 18; // 全自动限价订单
     }
 }
 
