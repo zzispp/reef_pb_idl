@@ -12,35 +12,96 @@ service Limit {
     rpc CancelLimitOrder (CancelLimitOrderRequest) returns (CancelLimitOrderReply);
     rpc GetLimitOrder (GetLimitOrderRequest) returns (GetLimitOrderReply);
     rpc GetLimitOrders (GetLimitOrdersRequest) returns (GetLimitOrdersReply);
+    rpc CreateAutoLimitOrder (CreateAutoLimitOrderRequest) returns (CreateAutoLimitOrderReply);
+}
+
+
+enum LimitType {
+    LIMIT_TYPE_BUY = 0; // 限价买入
+    LIMIT_TYPE_SELL = 1; // 限价卖出
+    LIMIT_TYPE_STOP_LOSS_PROFIT = 2; // 止盈止损
+    LIMIT_TYPE_AUTO = 3; // 全自动限价单（买入+止盈+止损）
+}
+
+enum AmountType {
+    AMOUNT_TYPE_AMOUNT = 0; // 数量
+    AMOUNT_TYPE_PERCENT = 1; // 百分比
+}
+
+enum StopLossProfitType {
+    STOP_LOSS_PROFIT_TYPE_TAKE_PROFIT = 0; // 止盈
+    STOP_LOSS_PROFIT_TYPE_STOP_LOSS = 1; // 止损
+}
+
+// 限价买入订单 - 按价格买入XXX数量的主网币
+message LimitOrderBuy {
+    double target_price = 1; // 目标价格
+    double amount = 2; // 购买数量(主网币数量)
+}
+
+// 限价卖出订单
+message LimitOrderSell {
+    double target_price = 1; // 目标价格
+    AmountType amount_type = 2; // 数量类型
+    double amount_value = 3; // 数量值(根据amount_type决定是具体数量还是百分比)
+}
+
+// 止盈止损订单
+message LimitOrderStopLossProfit {
+    StopLossProfitType type = 1; // 止盈或止损
+    double percent = 2; // 百分比
+    double token_value_usdt = 3; // 下单时候的代币价值(USDT)
+}
+
+// 全自动限价单（买入+止盈+止损）
+message LimitOrderAuto {
+    double target_price = 1; // 买入目标价格
+    double amount = 2; // 购买数量(主网币数量)
+    double take_profit_percent = 3; // 止盈百分比
+    double stop_loss_percent = 4; // 止损百分比
+    string take_profit_order_id = 5; // 止盈订单ID
+    string stop_loss_order_id = 6; // 止损订单ID
 }
 
 message CreateLimitOrderRequest {
-    string chain_name = 1; // 链名称
+    string chain = 1; // 链
     string user_address = 2; // 用户地址
     string token_address = 3; // 代币地址
-    double amount = 4; // 数量
-    int32 direction = 5; // 方向 1: 买入 2: 卖出
+    LimitType limit_type = 4; // 订单类型
+    string private_key = 5; // 私钥
+    double slippage = 6; // 滑点
+    string biz_id = 7; // 业务ID
+    double gas_price = 8; // gas 价格
+    uint64 expire_at = 9; // 过期时间
 
-    optional double price = 6; // 价格
-
-    optional double token_in_amount = 7; // 输入量
-    optional double token_out_amount = 8; // 输出量
-
-    double gas_price = 9; //gas 价格
-    string symbol = 10; // 交易符号 BNB/USDT
-    string private_key = 11; // 私钥
-    double slippage = 12; // 滑点
-    string biz_id = 13; // 业务ID
-
-    optional double percent = 14; // 百分比
-
-    uint64 expire_at = 15; // 过期时间
-
-    int32 limit_type = 16; // 限价类型 1: 按价格  2.按输入输出量 3.止盈止损
+    // 根据limit_type选择对应的订单数据
+    oneof order_data {
+        LimitOrderBuy limit_buy = 10; // 限价买入订单
+        LimitOrderSell limit_sell = 11; // 限价卖出订单
+        LimitOrderStopLossProfit stop_loss_profit = 12; // 止盈止损订单
+    }
 }
 
 message CreateLimitOrderReply {
     string order_id = 1; // 订单ID
+}
+
+message CreateAutoLimitOrderRequest {
+    string chain = 1; // 链
+    string user_address = 2; // 用户地址
+    string token_address = 3; // 代币地址
+    string private_key = 4; // 私钥
+    double slippage = 5; // 滑点
+    string biz_id = 6; // 业务ID
+    double gas_price = 7; // gas 价格
+    uint64 expire_at = 8; // 过期时间
+    LimitOrderAuto auto_order = 9; // 全自动限价订单数据
+}
+
+message CreateAutoLimitOrderReply {
+    string main_order_id = 1; // 主订单ID（买入订单）
+    string take_profit_order_id = 2; // 止盈订单ID
+    string stop_loss_order_id = 3; // 止损订单ID
 }
 
 message CancelLimitOrderRequest {
@@ -60,26 +121,25 @@ message LimitOrder {
     string created_at = 2; // 创建时间
     string updated_at = 3; // 修改时间
     string deleted_at = 4; // 删除时间
-    string expire_at = 5; // 过期时间
-    string chain_name = 6; // 链名称
+    uint64 expire_at = 5; // 过期时间
+    string chain = 6; // 链
     string user_address = 7; // 用户地址
     string token_address = 8; // 代币地址
-    double amount = 9; // 数量
-    int32 direction = 10; // 方向 0:买入 1:卖出
-    int32 limit_type = 11; // 限价类型 0: 按价格  1.按输入输出量 2.止盈止损
-    optional double price = 12; // 价格
+    LimitType limit_type = 9; // 订单类型
+    string private_key = 10; // 私钥
+    double slippage = 11; // 滑点
+    string biz_id = 12; // 业务ID
+    double gas_price = 13; // gas 价格
+    int32 status = 14; // 状态
+    string result = 15; // 结果
 
-    optional double token_in_amount = 13; // 输入量
-    optional double token_out_amount = 14; // 输出量
-    double gas_price = 15; // gas价格 gwei/lamport
-    string symbol = 16; // 交易符号 BNB/USDT
-    string private_key = 17; // 私钥
-    double slippage = 18; // 滑点
-    string biz_id = 19; // 业务ID
-    int32 status = 20; // 状态
-    string result = 21; // 结果
-
-    optional double percent = 22; // 百分比
+    // 根据limit_type选择对应的订单数据
+    oneof order_data {
+        LimitOrderBuy limit_buy = 16; // 限价买入订单
+        LimitOrderSell limit_sell = 17; // 限价卖出订单
+        LimitOrderStopLossProfit stop_loss_profit = 18; // 止盈止损订单
+        LimitOrderAuto auto_order = 19; // 全自动限价订单
+    }
 }
 
 message GetLimitOrderReply {
