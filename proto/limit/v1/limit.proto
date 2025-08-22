@@ -12,8 +12,22 @@ service Limit {
     rpc CancelLimitOrder (CancelLimitOrderRequest) returns (CancelLimitOrderReply);
     rpc GetLimitOrder (GetLimitOrderRequest) returns (GetLimitOrderReply);
     rpc GetLimitOrders (GetLimitOrdersRequest) returns (GetLimitOrdersReply);
+    rpc GetLimitOrderByBizUserId (GetLimitOrderByBizUserIdRequest) returns (GetLimitOrderByBizUserIdReply);
 }
 
+// 通用分页请求
+message PageRequest {
+    int32 page = 1; // 页码，从1开始
+    int32 page_size = 2; // 每页大小
+}
+
+// 通用分页响应
+message PageResponse {
+    int32 page = 1; // 当前页码
+    int32 page_size = 2; // 每页大小
+    int64 total = 3; // 总记录数
+    int32 total_pages = 4; // 总页数
+}
 
 enum AmountType {
     AMOUNT_TYPE_AMOUNT = 0; // 数量
@@ -56,14 +70,15 @@ message CreateLimitOrderRequest {
     string private_key = 4; // 私钥
     double slippage = 5; // 滑点
     string biz_id = 6; // 业务ID
-    double gas_price = 7; // gas 价格
-    uint64 expire_at = 8; // 过期时间
+    string biz_user_id = 7; // 业务用户ID
+    double gas_price = 8; // gas 价格
+    uint64 expire_at = 9; // 过期时间
 
     // 根据limit_type选择对应的订单数据
     oneof order_data {
-        LimitOrderBuy limit_buy = 9; // 限价买入订单
-        LimitOrderSell limit_sell = 10; // 限价卖出订单
-        LimitOrderStopLossProfit stop_loss_profit = 11; // 止盈止损订单
+        LimitOrderBuy limit_buy = 10; // 限价买入订单
+        LimitOrderSell limit_sell = 11; // 限价卖出订单
+        LimitOrderStopLossProfit stop_loss_profit = 12; // 止盈止损订单
     }
 }
 
@@ -95,15 +110,16 @@ message LimitOrder {
     string private_key = 9; // 私钥
     double slippage = 10; // 滑点
     string biz_id = 11; // 业务ID
-    double gas_price = 12; // gas 价格
-    int32 status = 13; // 状态
-    string result = 14; // 结果
+    string biz_user_id = 12; // 业务用户ID
+    double gas_price = 13; // gas 价格
+    int32 status = 14; // 状态
+    string result = 15; // 结果
 
     // 根据limit_type选择对应的订单数据
     oneof order_data {
-        LimitOrderBuy limit_buy = 15; // 限价买入订单
-        LimitOrderSell limit_sell = 16; // 限价卖出订单
-        LimitOrderStopLossProfit stop_loss_profit = 17; // 止盈止损订单
+        LimitOrderBuy limit_buy = 16; // 限价买入订单
+        LimitOrderSell limit_sell = 17; // 限价卖出订单
+        LimitOrderStopLossProfit stop_loss_profit = 18; // 止盈止损订单
     }
 }
 
@@ -117,4 +133,14 @@ message GetLimitOrdersRequest {
 
 message GetLimitOrdersReply {
     repeated LimitOrder limit_orders = 1; // 订单列表
+}
+
+message GetLimitOrderByBizUserIdRequest {
+    string biz_user_id = 1; // 业务用户ID
+    PageRequest page = 2; // 分页参数
+}
+
+message GetLimitOrderByBizUserIdReply {
+    repeated LimitOrder limit_orders = 1; // 订单列表
+    PageResponse page = 2; // 分页信息
 }
