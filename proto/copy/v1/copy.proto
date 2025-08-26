@@ -13,13 +13,6 @@ service CopyTradeService {
     rpc CancelCopyOrder (CancelCopyOrderRequest) returns (CancelCopyOrderReply);
 }
 
-// 交易类型
-enum TradeType {
-    TRADE_TYPE_UNSPECIFIED = 0;
-    TRADE_TYPE_BUY = 1;  // 买入
-    TRADE_TYPE_SELL = 2; // 卖出
-}
-
 
 // 日志条目
 message LogEntry {
@@ -36,11 +29,7 @@ message BuyStrategy {
     double slippage_tolerance = 5; // 滑点容忍度
 }
 
-// 卖出策略
-message SellStrategy {
-    double percentage = 1; // 卖出百分比
-    double slippage_tolerance = 2; // 滑点容忍度
-}
+
 
 // 跟单条件
 message CopyConditions {
@@ -60,20 +49,17 @@ message CreateCopyOrderRequest {
     string biz_order_id = 5; // 业务订单id
     string biz_user_id = 6; // 业务用户id
     
-    // 交易类型
-    TradeType trade_type = 7;
-    
-    // 买入策略 (当trade_type包含买入时必填)
-    optional BuyStrategy buy_strategy = 8;
-    
-    // 卖出策略 (当trade_type包含卖出时必填)
-    optional SellStrategy sell_strategy = 9;
+    // 买入策略
+    optional BuyStrategy buy_strategy = 7;
     
     // 跟单条件
-    optional CopyConditions copy_conditions = 10;
+    optional CopyConditions copy_conditions = 8;
+    
+    // 是否跟卖
+    bool follow_sell = 9;
     
     // 过期时间 (Unix时间戳)
-    int64 expire_time = 11;
+    int64 expire_time = 10;
 }
 
 message CreateCopyOrderReply {
@@ -90,16 +76,15 @@ message GetCopyOrderReply {
     string user_address = 3; // 用户地址
     string target_address = 4; // 目标地址
     string biz_user_id = 5; // 业务用户id
-    TradeType trade_type = 6; // 交易类型
-    optional BuyStrategy buy_strategy = 7; // 买入策略
-    optional SellStrategy sell_strategy = 9; // 卖出策略
-    optional CopyConditions copy_conditions = 10; // 跟单条件
-    int64 expire_time = 11; // 过期时间
-    uint64 status = 12; // 状态
-    string message = 13; // 消息
-    string created_at = 14; // 创建时间
-    string updated_at = 15; // 更新时间
-    repeated LogEntry logs = 16; // 执行日志
+    optional BuyStrategy buy_strategy = 6; // 买入策略
+    optional CopyConditions copy_conditions = 7; // 跟单条件
+    bool follow_sell = 8; // 是否跟卖
+    int64 expire_time = 9; // 过期时间
+    uint64 status = 10; // 状态
+    string message = 11; // 消息
+    string created_at = 12; // 创建时间
+    string updated_at = 13; // 更新时间
+    repeated LogEntry logs = 14; // 执行日志
 }
 
 message GetCopyOrderListRequest {
